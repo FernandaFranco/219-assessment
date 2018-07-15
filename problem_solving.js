@@ -27,22 +27,23 @@ return first op - second op
 */
 
 function sumSquareDifference(number) {
-  var i;
+  var sum = function (total, number) {
+    return total + number;
+  };
+  var square = function (number) {
+    return number ** 2;
+  };
   var numbers = [];
+  var firstOp;
+  var secondOp;
+  var i;
 
   for (i = 1; i <= number; i += 1) {
     numbers.push(i);
   }
 
-  var sum = function (total, number) {
-    return total + number;
-  };
-
-  var firstOp = numbers.reduce(sum)**2;
-
-  var secondOp = numbers.map(function (number) {
-    return number**2;
-  }).reduce(sum);
+  firstOp = square(numbers.reduce(sum));
+  secondOp = numbers.map(square).reduce(sum);
 
   return firstOp - secondOp;
 }
