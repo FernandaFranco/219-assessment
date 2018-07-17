@@ -1,92 +1,84 @@
 /*
-input: string with digits and other chars;
-output: true or false
+input: odd integer n where n forms a nXn grid
+output: no return value. log to the console a diamond displayed in a nXn grid
 
 requirements:
-ignore all non numeric chars;
+n = 1
 
-from right to left:
-- double the value of every second digit
+1 row and 1 column
+*
+3 rows and 3 columns
+ *
+***
+ *
 
-if doubled value >= 10:
-doubled - 9;
+5 rows 5 cols
+  *
+ ***
+***** 5 asterisks
+ ***
+  *
 
-finally, sum all values: checksum
+mental model:
+displaying n strings:
+1 asterisk (n-1)/2 spaces before
+until we reach the middle row:
+spaceNumber -= 1
+asteriskNumber += 2
+middle row --> asteriksNumber = n
+spaceNumber += 1
+asteriskNumber -= 2
+until asteriskNumber = 1;
 
-if checksum % 10 === 0:
-return true
-else:
-return false
+diamond(1)
+diamond(3)
+diamond(5)
+diamond(9)
+diamond(15)
 
-test cases:
-validLuhn('1111') // false
-validLuhn('8763') // true
-validLuhn('87 6 a)3') // true
-validLuhn('11 1 a)1') // false
-validLuhn('11 1 a)1') // false
-validLuhn('2323 2005 7766 3554') // true
-validLuhn('2323 2005 7766 3553') // false
-validLuhn('1') // false
-validLuhn('10') // false
-validLuhn('') // false
-
-data structures:
-array of strings > array of number > reduce to a sum
+data Structures:
+strings
 
 algorithm:
-replace non digits with ''
-return false if length === 0
-split string into array of chars
-reverse
-map: with index
-- char to digit;
-- replace every odd index with its double;
-- if double > 9, subtract 9
-end map
+number of asterisks = 1
+number of spaces = (n-1)/2
 
-reduce the array to checksum, initial = 0
+while number ast <= n
+display ' '.repeat(n of spa) + '*'.repeat(n of ast)
+update n of ast, spaces
+end
 
-return checksum % 10 === 0
+while number ast >= 1:
+display string
+update n of ast, spaces
+end
 */
 
-function validLuhn(numberStr) {
-  numberStr = numberStr.replace(/\D/g, '');
+function diamond(n) {
+  var asterisksNumber = 1;
+  var spacesNumber = (n -1) / 2;
 
-  return checksum(numberStr) % 10 === 0;
-}
-
-function checksum(numberStr) {
-  var digits = numberStr.split('').reverse().map(function (digit, index) {
-    digit = Number(digit);
-    if (index % 2 === 1) {
-      digit = double(digit);
-    }
-
-    return digit;
-  });
-
-  return digits.reduce(function (total, digit) {
-    return total + digit;
-  }, 0);
-}
-
-function double(digit) {
-  digit *= 2;
-  if (digit > 9) {
-    digit -= 9;
+  while (asterisksNumber < n) {
+    console.log(formRow(asterisksNumber, spacesNumber));
+    asterisksNumber += 2;
+    spacesNumber -= 1;
   }
 
-  return digit;
+  console.log(formRow(asterisksNumber, spacesNumber));
+
+  while (asterisksNumber > 1) {
+    asterisksNumber -= 2;
+    spacesNumber += 1;
+    console.log(formRow(asterisksNumber, spacesNumber));
+  }
 }
 
-console.log(validLuhn('1111')); // false
-console.log(validLuhn('8763')); // true
-console.log(validLuhn('87 6 a)3')); // true
-console.log(validLuhn('11 1 a)1')); // false
-console.log(validLuhn('11 1 a)1')); // false
-console.log(validLuhn('2323 2005 7766 3554')); // true
-console.log(validLuhn('2323 2005 7766 3553')); // false
-console.log(validLuhn('1')); // false
-console.log(validLuhn('10')); // false
+function formRow(asterisks, spaces) {
+  return ' '.repeat(spaces) + '*'.repeat(asterisks);
+}
 
-
+diamond(1)
+diamond(3)
+diamond(5)
+diamond(9)
+diamond(15)
